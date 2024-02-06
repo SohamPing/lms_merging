@@ -7,7 +7,8 @@ const app = express();
 
 
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js";
+var firebase = require("firebase/app");
+require("firebase/auth");
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -22,7 +23,7 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const FirebaseApp = initializeApp(firebaseConfig);
+const FirebaseApp = firebase.initializeApp(firebaseConfig);
 
 
 
