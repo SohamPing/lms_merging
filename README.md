@@ -1,5 +1,5 @@
-# P565-SP24-LMS-G21
-Repository for Software Engineering-I Spring 24 Group 21's Learning Management System project.
+# P565-SP24-LMS-G21 Backend
+Repository for Software Engineering-I Spring 24 Group 21's Learning Management System project (backend).
 
 How to get started with the project.
 
