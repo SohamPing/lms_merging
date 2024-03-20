@@ -140,7 +140,7 @@ function Form({ type }) {
                 />
               </div>
             )}
-            {type === "signup" && (
+            {/* {type === "signup" && (
               <div className="flex flex-col">
                 <label className="pl-1 text-[17px] text-gray-700" htmlFor="level">
                   Level
@@ -155,7 +155,98 @@ function Form({ type }) {
                 </select>
               </div>
             )}
-            {type === "signup" && (
+             */}
+
+{type === "signup" && (
+  <div className="flex flex-col">
+    <label className="pl-1 text-[17px] text-gray-700" htmlFor="level">
+      {instructor ? "Teaching for" : "Level"}
+    </label>
+    <select
+      className="border-2 py-2 px-4 rounded-md focus:outline-none focus:border-[#0fa3b1]"
+      id="level"
+      {...register("level", { required: "This field is required" })}
+    >
+      {instructor ? (
+        <>
+          {/* Optionally, provide different options for instructors */}
+          <option value="undergrad">Undergraduate Courses</option>
+          <option value="grad">Graduate Courses</option>
+        </>
+      ) : (
+        <>
+          <option value="undergrad">Undergraduate</option>
+          <option value="grad">Graduate</option>
+        </>
+      )}
+    </select>
+  </div>
+)}
+
+{type === "signup" && (
+  <div className="flex flex-col">
+    <label className="pl-1 text-[17px] text-gray-700" htmlFor="courseOption1">
+      Course Option-1
+    </label>
+    <select
+      className="border-2 py-2 px-4 rounded-md focus:outline-none focus:border-[#0fa3b1]"
+      id="courseOption1"
+      {...register("courseOption1", { required: "This field is required" })}
+    >
+      <option value="Applied Algorithms">Applied Algorithms</option>
+      <option value="Software Engineering">Software Engineering</option>
+      <option value="Applied Machine Learning">Applied Machine Learning</option>
+      <option value="Computer Networks">Computer Networks</option>
+      <option value="Data Mining">Data Mining</option>
+      <option value="Advanced Database Concepts">Advanced Database Concepts</option>
+    </select>
+  </div>
+)}
+
+{/* Repeat for Course Option-2 */}
+{type === "signup" && (
+  <div className="flex flex-col">
+    <label className="pl-1 text-[17px] text-gray-700" htmlFor="courseOption2">
+      Course Option-2
+    </label>
+    <select
+      className="border-2 py-2 px-4 rounded-md focus:outline-none focus:border-[#0fa3b1]"
+      id="courseOption2"
+      {...register("courseOption2", { required: "This field is required" })}
+    >
+      <option value="Applied Algorithms">Applied Algorithms</option>
+      <option value="Software Engineering">Software Engineering</option>
+      <option value="Applied Machine Learning">Applied Machine Learning</option>
+      <option value="Computer Networks">Computer Networks</option>
+      <option value="Data Mining">Data Mining</option>
+      <option value="Advanced Database Concepts">Advanced Database Concepts</option>
+      {/* Repeat options as in Course Option-1 */}
+    </select>
+  </div>
+)}
+
+{/* Repeat for Course Option-3 */}
+{type === "signup" && (
+  <div className="flex flex-col">
+    <label className="pl-1 text-[17px] text-gray-700" htmlFor="courseOption3">
+      Course Option-3
+    </label>
+    <select
+      className="border-2 py-2 px-4 rounded-md focus:outline-none focus:border-[#0fa3b1]"
+      id="courseOption3"
+      {...register("courseOption3", { required: "This field is required" })}
+    >
+      <option value="Applied Algorithms">Applied Algorithms</option>
+      <option value="Software Engineering">Software Engineering</option>
+      <option value="Applied Machine Learning">Applied Machine Learning</option>
+      <option value="Computer Networks">Computer Networks</option>
+      <option value="Data Mining">Data Mining</option>
+      <option value="Advanced Database Concepts">Advanced Database Concepts</option>
+      {/* Repeat options as in Course Option-1 */}
+    </select>
+  </div>
+)}
+            {/* {type === "signup" && (
               <div className="flex flex-col">
                 <label className="pl-1 text-[17px] text-gray-700" htmlFor="courses">
                   Courses
@@ -168,7 +259,7 @@ function Form({ type }) {
                   {...register("courses", { required: "This field is required" })}
                 />
               </div>
-            )}
+            )} */}
             {type === "signup" && instructor && (
               <div className="flex flex-col">
                 <label className="pl-1 text-[17px] text-gray-700" htmlFor="qualification">

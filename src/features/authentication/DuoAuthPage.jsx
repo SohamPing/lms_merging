@@ -13,13 +13,36 @@ function DuoAuthPage() {
     // Add logic to handle sending a push notification for authentication
   };
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   const authData = { username, passphrase, passcode, rememberMe };
+  //   try {
+  //     const response = await verifyDuoAuth(authData);
+  //     if (response.success) {
+  //       navigate('/dashboard'); // Navigate to the dashboard
+  //     } else {
+  //       alert('Authentication failed. Please try again.');
+  //     }
+  //   } catch (error) {
+  //     console.error('Error during authentication:', error);
+  //   }
+  // };
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const authData = { username, passphrase, passcode, rememberMe };
     try {
       const response = await verifyDuoAuth(authData);
       if (response.success) {
-        navigate('/dashboard'); // Navigate to the dashboard
+        // Use a regular expression to test if the passcode is numeric
+        if (/^\d+$/.test(passcode)) {
+          navigate('/dashboard'); // Navigate to the Dashboard
+        } else if (/^[A-Za-z]+$/.test(passcode)) {
+          navigate('/instructor-dashboard'); // Navigate to the Instructor Dashboard
+        } else {
+          alert('Passcode must be either all digits or all alphabets.');
+        }
       } else {
         alert('Authentication failed. Please try again.');
       }
