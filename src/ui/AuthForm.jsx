@@ -1,22 +1,18 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useSignup } from "../features/authentication/useSignup";
 import { useLogin } from "../features/authentication/useLogin";
-
+import { useGoogleAuth } from "../features/authentication/useGoogleAuth";
 
 function Form({ type }) {
-  const navigate = useNavigate();
   const [student, setStudent] = useState(true);
   const [instructor, setInstructor] = useState(false);
-  const { signUp, isLoading: isLoadingSingUp } = useSignup();
-  const { login, isLoading: isLoadingLogin } = useLogin();
+  //const { signUp, isLoading: isLoadingSingUp } = useSignup();
   const { register, handleSubmit, setValue, reset } = useForm();
+  const navigate = useNavigate();
 
-  
-
-  const onSubmitSignup = (data) => {
+  /*const onSubmitSignup = (data) => {
     const signUpData = {
       email: data.email,
       password: data.password,
@@ -27,48 +23,24 @@ function Form({ type }) {
       ...(instructor && { instructorData: { level: data.level, qualification: data.qualification, courses: data.courses } })
     };
 
-    signUp(signUpData, {
+    useSignup(signUpData, { 
       onSuccess: reset,
     });
-  };
-
-  // const onSubmitLogin = async (data) => {
-  //   await login({
-  //     email: data.email,
-  //     password: data.password,
-  //   });
-  // };
-
-
-  // const onSubmitLogin = (data) => {
-  //   login({
-  //     email: data.email,
-  //     password: data.password,
-  //   }).then(() => {
-  //     reset(); // Reset the form fields
-  //     navigate('/DuoAuthPage'); // Redirect to Duo Auth page
-  //   }).catch((error) => {
-  //     console.error("Login error:", error);
-  //     // Handle login error (e.g., display an error message)
-  //   });
-  // };
-
-  const onSubmitLogin = (data) => {
-    login({
-      email: data.email,
-      password: data.password,
-    }).then(() => {
-      reset(); // Reset the form fields
-      navigate('/DuoAuthPage'); // Redirect to Duo Auth page
-    }).catch((error) => {
-      console.error("Login error:", error);
-      // Handle login error (e.g., display an error message)
-    });
-  };
-
-
+  };*/
   
+  const onSubmitSignup = ({ email, password, fullName, department, type, level, courses, qualification }) => {
+    useSignup(email, password, fullName, department, type, level, courses, qualification);
+  };
 
+  function handleGoogleAuth() {
+    let uid = useGoogleAuth();
+    navigate('/Dashboard/id=' + uid);
+  };
+
+  const onSubmitLogin = ({ email, password }) => {
+    let uid = useLogin(email, password);
+    navigate('/Dashboard/id=' + uid);
+  };
 
   const onSubmit = type === "login" ? onSubmitLogin : onSubmitSignup;
 
@@ -78,6 +50,7 @@ function Form({ type }) {
         <Link to="/">
           <img className="h-12" src="/Logos/coursecraft_logo.png" alt="Coursecraft" />
         </Link>
+
       </div>
       <div className=" flex flex-col gap-2 justify-center mt-10">
         <div className="bg-[#bee1e6] rounded-3xl flex flex-col items-center w-[500px] m-auto gap-6 pt-5">
@@ -140,7 +113,7 @@ function Form({ type }) {
                 />
               </div>
             )}
-            {/* {type === "signup" && (
+            {type === "signup" && (
               <div className="flex flex-col">
                 <label className="pl-1 text-[17px] text-gray-700" htmlFor="level">
                   Level
@@ -155,98 +128,7 @@ function Form({ type }) {
                 </select>
               </div>
             )}
-             */}
-
-{type === "signup" && (
-  <div className="flex flex-col">
-    <label className="pl-1 text-[17px] text-gray-700" htmlFor="level">
-      {instructor ? "Teaching for" : "Level"}
-    </label>
-    <select
-      className="border-2 py-2 px-4 rounded-md focus:outline-none focus:border-[#0fa3b1]"
-      id="level"
-      {...register("level", { required: "This field is required" })}
-    >
-      {instructor ? (
-        <>
-          {/* Optionally, provide different options for instructors */}
-          <option value="undergrad">Undergraduate Courses</option>
-          <option value="grad">Graduate Courses</option>
-        </>
-      ) : (
-        <>
-          <option value="undergrad">Undergraduate</option>
-          <option value="grad">Graduate</option>
-        </>
-      )}
-    </select>
-  </div>
-)}
-
-{type === "signup" && (
-  <div className="flex flex-col">
-    <label className="pl-1 text-[17px] text-gray-700" htmlFor="courseOption1">
-      Course Option-1
-    </label>
-    <select
-      className="border-2 py-2 px-4 rounded-md focus:outline-none focus:border-[#0fa3b1]"
-      id="courseOption1"
-      {...register("courseOption1", { required: "This field is required" })}
-    >
-      <option value="Applied Algorithms">Applied Algorithms</option>
-      <option value="Software Engineering">Software Engineering</option>
-      <option value="Applied Machine Learning">Applied Machine Learning</option>
-      <option value="Computer Networks">Computer Networks</option>
-      <option value="Data Mining">Data Mining</option>
-      <option value="Advanced Database Concepts">Advanced Database Concepts</option>
-    </select>
-  </div>
-)}
-
-{/* Repeat for Course Option-2 */}
-{type === "signup" && (
-  <div className="flex flex-col">
-    <label className="pl-1 text-[17px] text-gray-700" htmlFor="courseOption2">
-      Course Option-2
-    </label>
-    <select
-      className="border-2 py-2 px-4 rounded-md focus:outline-none focus:border-[#0fa3b1]"
-      id="courseOption2"
-      {...register("courseOption2", { required: "This field is required" })}
-    >
-      <option value="Applied Algorithms">Applied Algorithms</option>
-      <option value="Software Engineering">Software Engineering</option>
-      <option value="Applied Machine Learning">Applied Machine Learning</option>
-      <option value="Computer Networks">Computer Networks</option>
-      <option value="Data Mining">Data Mining</option>
-      <option value="Advanced Database Concepts">Advanced Database Concepts</option>
-      {/* Repeat options as in Course Option-1 */}
-    </select>
-  </div>
-)}
-
-{/* Repeat for Course Option-3 */}
-{type === "signup" && (
-  <div className="flex flex-col">
-    <label className="pl-1 text-[17px] text-gray-700" htmlFor="courseOption3">
-      Course Option-3
-    </label>
-    <select
-      className="border-2 py-2 px-4 rounded-md focus:outline-none focus:border-[#0fa3b1]"
-      id="courseOption3"
-      {...register("courseOption3", { required: "This field is required" })}
-    >
-      <option value="Applied Algorithms">Applied Algorithms</option>
-      <option value="Software Engineering">Software Engineering</option>
-      <option value="Applied Machine Learning">Applied Machine Learning</option>
-      <option value="Computer Networks">Computer Networks</option>
-      <option value="Data Mining">Data Mining</option>
-      <option value="Advanced Database Concepts">Advanced Database Concepts</option>
-      {/* Repeat options as in Course Option-1 */}
-    </select>
-  </div>
-)}
-            {/* {type === "signup" && (
+            {type === "signup" && (
               <div className="flex flex-col">
                 <label className="pl-1 text-[17px] text-gray-700" htmlFor="courses">
                   Courses
@@ -259,7 +141,7 @@ function Form({ type }) {
                   {...register("courses", { required: "This field is required" })}
                 />
               </div>
-            )} */}
+            )}
             {type === "signup" && instructor && (
               <div className="flex flex-col">
                 <label className="pl-1 text-[17px] text-gray-700" htmlFor="qualification">
@@ -280,6 +162,7 @@ function Form({ type }) {
               </label>
               <input
                 className="border-2 py-2 px-4 rounded-md text-gray-700 focus:outline-none focus:border-[#0fa3b1]"
+
                 type="email"
                 placeholder="Enter your email"
                 id="email"
@@ -303,7 +186,6 @@ function Form({ type }) {
                   Forgot Password?
                 </Link>
               )}
-              
             </div>
             {type === "login" && (
               <div className="flex gap-1.5">
@@ -311,9 +193,10 @@ function Form({ type }) {
                 <span className="pt-2">Remember me</span>
               </div>
             )}
-
+              
             {type === "login" && (
               <button
+                onClick={handleGoogleAuth}
                 className='border-2 border-[#bee1e6] hover:border-[#0fa3b1] rounded-lg '>
                 <div className='flex gap-[20px] items-center py-3 px-2'>
                   <img
@@ -327,9 +210,19 @@ function Form({ type }) {
             )}
             
             <input type="hidden" value={`${type}`} {...register("type", { required: "This field is required" })} />
-            <button className="px-32 text-white hover:bg-[#bee1e6] rounded-lg flex py-2 hover:text-[#0fa3b1] bg-[#0fa3b1] border-2 border-[#bee1e6] hover:border-[#0fa3b1]">
+            <button 
+              onClick={onSubmit}
+              className="px-32 text-white hover:bg-[#bee1e6] rounded-lg flex py-2 hover:text-[#0fa3b1] bg-[#0fa3b1] border-2 border-[#bee1e6] hover:border-[#0fa3b1]">
               {type === "login" ? "Login" : "Create Account"}
             </button>
+            {type === "login" && (
+              <span className="text-sm text-gray-700">
+                New to CourseCraft?{" "}
+                <Link className="text-[#0fa3b1] pl-2 hover:text-gray-700" to={"/signup"}>
+                  Create Account
+                </Link>
+              </span>
+            )}
             {type === "signup" && (
               <span className="text-sm text-gray-700">
                 Already have an account?{" "}
